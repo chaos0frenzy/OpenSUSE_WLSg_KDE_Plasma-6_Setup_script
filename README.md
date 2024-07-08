@@ -19,3 +19,4 @@
 #### paste this script  
 #### chmod +x setup_script.sh
 #### sudo ./setup_script.sh
+## 6. Reboot
