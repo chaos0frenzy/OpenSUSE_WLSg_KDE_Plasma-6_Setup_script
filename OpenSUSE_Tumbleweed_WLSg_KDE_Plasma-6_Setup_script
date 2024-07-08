@@ -24,6 +24,11 @@
 #
 # 6. Reboot
 #
+# Stop and start WSL (this part is done in PowerShell)
+# exit
+# powershell.exe -Command "wsl -t openSUSE-Tumbleweed"
+# powershell.exe -Command "wsl"
+#
 # Ensure the script is run with root privileges.
 #
 # This script was written by chaos0frenzy.
@@ -94,10 +99,6 @@ EOF'
 # Make scripts executable
 sudo chmod +x /usr/local/bin/start-weston.sh
 sudo chmod +x /etc/systemd/system/weston.service
-
-# Stop and start WSL (this part is done in PowerShell)
-powershell.exe -Command "wsl -t openSUSE-Tumbleweed"
-powershell.exe -Command "wsl"
 
 # Enable and start necessary services
 sudo systemctl enable pulseaudio
