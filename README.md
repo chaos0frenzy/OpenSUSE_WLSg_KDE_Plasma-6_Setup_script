@@ -24,28 +24,28 @@
 #### original source https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script.
 #### Information to produce this script was sourced from https://en.opensuse.org/openSUSE:WSL man pages and general knowledge.
 
-#Breakdown:
-##Introduction and Instructions: 
+# Breakdown:
+## Introduction and Instructions: 
 Provided at the top of the script.
-##Ensure Root Privileges: 
+## Ensure Root Privileges: 
 Checks if the script is run with root privileges.
 ##Optimization Steps:
 Enable parallel downloading.
 Increase cache size.
 Refresh repositories non-interactively.
-##Add Repositories: 
+## Add Repositories: 
 Adding required repositories with auto-import of GPG keys.
-##Distribution Upgrade: 
+## Distribution Upgrade: 
 Perform a distribution upgrade.
 Refresh and Upgrade Packages: Refresh and upgrade existing packages.
-##Enable systemd: 
+## Enable systemd: 
 Edit /etc/wsl.conf to enable systemd.
-##Install Required and Optional Packages: 
+## Install Required and Optional Packages: 
 Install necessary packages and optional packages.
-##Create Scripts and Services: 
+## Create Scripts and Services: 
 Create and configure necessary scripts and services for Weston and KDE Plasma.
-##Enable Services: 
+## Enable Services: 
 Enable and start the required services.
-##Optional Services: 
+## Optional Services: 
 Create, enable, and start optional services for NumLock, htop, Discover, and Neofetch.
 Completion Message: Informs the user that the setup is complete and prompts for a restart of the WSL instance.
