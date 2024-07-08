@@ -1,4 +1,4 @@
-# This script fully configures your OpenSUSE Tumbleweed WSL for WSLg useing KDE Plasma 6 
+##### This script fully configures your OpenSUSE Tumbleweed WSL for WSLg useing KDE Plasma 6 
 #
 # Before you start:
 # 
