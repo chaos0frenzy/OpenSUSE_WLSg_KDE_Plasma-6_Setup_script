@@ -15,7 +15,8 @@
 #
 # 3. Restart your WSL instance after editing the configuration.
 #
-# 4. Configure the script enable optional packages and service if desired. 
+# 4. Configure the script 
+#     enable optional packages and service if desired. 
 #
 # 5. Save this script as setup_script.sh and make it executable:
 # chmod +x setup_script.sh
