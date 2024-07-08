@@ -1,6 +1,7 @@
 #!/bin/bash
 # Before you start:
-# 
+#
+#
 # 1. Install nano, WSL GUI, and WSL systemd patterns:
 #    sudo zypper in nano
 #    sudo zypper in -t pattern wsl_gui
@@ -13,14 +14,18 @@
 #
 # 3. Restart your WSL instance after editing the configuration.
 #
-# 4. Then sudo nano ./setup_script.sh
-# paste this script 
-# 
-# chmod +x setup_script.sh
+# 4. Configure the script on lines 81 and 118 you must put in your user name in the space where it says !!YOUR USER HERE!!
 #
+# 5. Save this script as setup_script.sh and make it executable:
+# chmod +x setup_script.sh
 # sudo ./setup_script.sh
 #
-# Ensure the script is run with root privileges
+# Ensure the script is run with root privileges.
+#
+# This script was written by chaos0frenzy.
+# original source https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script.
+# information to produce this script was sourced from https://en.opensuse.org/openSUSE:WSL man pages and general knowledge.
+
 if [ "$(id -u)" -ne 0 ]; then
     echo "Please run this script as root or using sudo."
     exit 1
@@ -71,7 +76,7 @@ Description=Weston Wayland Compositor
 After=network.target
 
 [Service]
-User=chaos
+User=!!YOUR USER HERE!!
 Environment="XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir"
 Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="DISPLAY=:0"
@@ -105,7 +110,7 @@ Description=Start Plasma 6 in WSL
 After=weston.service
 
 [Service]
-User=chaos
+User=!!YOUR USER HERE!!
 Environment="XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir"
 Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="DISPLAY=:0"
