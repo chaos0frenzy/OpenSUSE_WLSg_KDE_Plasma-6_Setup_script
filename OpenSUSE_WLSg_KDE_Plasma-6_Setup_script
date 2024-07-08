@@ -37,9 +37,9 @@ sudo zypper ar --if-not-exists -fp 75 https://download.opensuse.org/repositories
 # Perform distribution upgrade
 sudo zypper -v dup --allow-vendor-change
 
-# Install necessary packages
-sudo zypper install flatpak
-sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+# Install flatpak packages (Optinal)
+#sudo zypper install flatpak
+#sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 # Refresh and upgrade packages
 sudo zypper refresh
@@ -47,7 +47,10 @@ sudo zypper up
 sudo zypper dup
 
 # Install additional packages
-sudo zypper install plasma6-session plasma6-workspace plasma6-desktop dolphin konsole weston xrandr discover neofetch opi nano pulseaudio NetworkManager sddm htop
+sudo zypper install plasma6-session plasma6-workspace plasma6-desktop dolphin konsole weston xrandr 
+
+# unnecessary but useful (Optinal)
+#sudo zypper install discover pulseaudio NetworkManager sddm htop neofetch opi 
 
 # Edit /etc/wsl.conf
 echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
