@@ -27,7 +27,7 @@
 # Ensure the script is run with root privileges.
 #
 # This script was written by chaos0frenzy.
-# original source https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script.
+# original source https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_Tumbleweed_WLSg_KDE_Plasma-6_Setup_script.
 # information to produce this script was sourced from https://en.opensuse.org/openSUSE:WSL man pages and general knowledge.
 
 if [ "$(id -u)" -ne 0 ]; then
