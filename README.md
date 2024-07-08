@@ -29,7 +29,7 @@
 Provided at the top of the script.
 ## Ensure Root Privileges: 
 Checks if the script is run with root privileges.
-##Optimization Steps:
+## Optimization Steps:
 Enable parallel downloading.
 Increase cache size.
 Refresh repositories non-interactively.
