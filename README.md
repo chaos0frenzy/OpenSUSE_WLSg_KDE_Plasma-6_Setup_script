@@ -21,7 +21,7 @@
 #### sudo ./setup_script.sh
 ## 6. Reboot
 #### This script was written by chaos0frenzy.
-#### original source https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script.
+#### original source [https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script.](https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/blob/main/README.md?plain=1)
 #### Information to produce this script was sourced from https://en.opensuse.org/openSUSE:WSL man pages and general knowledge.
 
 # Breakdown:
