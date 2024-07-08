@@ -1,6 +1,7 @@
 #!/bin/bash
 # Before you start:
 #
+#This script fully configures your OpenSUSE Tumbleweed WSL for WSLg useing KDE Plasma 6
 #
 # 1. Install nano, WSL GUI, and WSL systemd patterns:
 #    sudo zypper in nano
@@ -14,11 +15,13 @@
 #
 # 3. Restart your WSL instance after editing the configuration.
 #
-# 4. Configure the script on lines 81 and 118 you must put in your user name in the space where it says !!YOUR USER HERE!!
+# 4. Configure the script on lines 81 and 118 you must put in your user name in the space where it says “!!YOUR USER HERE!!” and enable optional packages and service if desired. 
 #
 # 5. Save this script as setup_script.sh and make it executable:
 # chmod +x setup_script.sh
 # sudo ./setup_script.sh
+#
+# 6. Reboot
 #
 # Ensure the script is run with root privileges.
 #
@@ -31,7 +34,7 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-# Add repositories with priority
+# Add repositories
 sudo zypper ar --if-not-exists -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/Essentials/' packman-essentials
 sudo zypper ar --if-not-exists -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
 sudo zypper ar --if-not-exists -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Qt/openSUSE_Tumbleweed/ KDE:Unstable:Qt
@@ -51,7 +54,7 @@ sudo zypper refresh
 sudo zypper up
 sudo zypper dup
 
-# Install additional packages
+# Install required packages
 sudo zypper install plasma6-session plasma6-workspace plasma6-desktop dolphin konsole weston xrandr 
 
 # unnecessary but useful (Optinal)
@@ -137,10 +140,10 @@ sudo chmod +x /usr/local/bin/start-plasma.sh
 sudo systemctl daemon-reload
 sudo systemctl enable weston.service
 
-# Create numlock.service
-sudo bash -c 'cat > /etc/systemd/system/numlock.service <<EOF
-[Unit]
-Description=Enable NumLock on startup
+# Create service to enable numlock at boot numlock.service (optinal)
+#sudo bash -c 'cat > /etc/systemd/system/numlock.service <<EOF
+#[Unit]
+#Description=Enable NumLock on startup
 
 [Service]
 Type=oneshot
