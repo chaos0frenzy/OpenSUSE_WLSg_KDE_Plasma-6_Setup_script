@@ -49,3 +49,5 @@ Enable and start the required services.
 ## Optional Services: 
 Create, enable, and start optional services for NumLock, htop, Discover, and Neofetch.
 Completion Message: Informs the user that the setup is complete and prompts for a restart of the WSL instance.
+## Known issues:
+The desktop opens in WSLg.exe. This has no true configuration; you can edit it from the files wslg.rdp and wslg_desktop.rdp in the WSL folder. The default seems to work best from my testing. You can move the openSUSE desktop around with the Win + arrow keys.
