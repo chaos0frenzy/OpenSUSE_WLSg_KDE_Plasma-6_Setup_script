@@ -1,13 +1,14 @@
 #!/bin/bash
+
 # Before you start:
 #
-#This script fully configures your OpenSUSE Tumbleweed WSL for WSLg useing KDE Plasma 6
+# This script fully configures your OpenSUSE Tumbleweed WSL for WSLg using KDE Plasma 6
 #
 # 1. Install nano, WSL GUI, and WSL systemd patterns:
 #    sudo zypper in nano
 #    sudo zypper in -t pattern wsl_gui
 #    sudo zypper in -t pattern wsl_systemd
-# 
+#
 # 2. Edit /etc/wsl.conf to enable systemd:
 #    sudo nano /etc/wsl.conf
 #    [boot]
@@ -15,32 +16,39 @@
 #
 # 3. Restart your WSL instance after editing the configuration.
 #
-# 4. Configure the script 
-#     enable optional packages and service if desired. 
+# 4. Configure the script
+#     enable optional packages and service if desired.
 #
 # 5. Save this script as setup_script.sh and make it executable:
-# chmod +x setup_script.sh
-# sudo ./setup_script.sh
+#    chmod +x setup_script.sh
+#    sudo ./setup_script.sh
 #
 # 6. Reboot
-#
-# Stop and start WSL (this part is done in PowerShell)
-# exit
-# powershell.exe -Command "wsl -t openSUSE-Tumbleweed"
-# powershell.exe -Command "wsl"
 #
 # Ensure the script is run with root privileges.
 #
 # This script was written by chaos0frenzy.
-# original source https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_Tumbleweed_WLSg_KDE_Plasma-6_Setup_script.
-# information to produce this script was sourced from https://en.opensuse.org/openSUSE:WSL man pages and general knowledge.
+# Original source: https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_Tumbleweed_WLSg_KDE_Plasma-6_Setup_script.
+# Information to produce this script was sourced from https://en.opensuse.org/openSUSE:WSL man pages and general knowledge.
 
 if [ "$(id -u)" -ne 0 ]; then
     echo "Please run this script as root or using sudo."
     exit 1
 fi
 
-# Add repositories
+# Optimization steps
+echo "Enabling parallel downloading..."
+sudo sed -i 's/# max_parallel_downloads = .*/max_parallel_downloads = 15/' /etc/zypp/zypp.conf
+
+echo "Increasing cache size..."
+sudo sed -i 's/# cache-size = .*/cache-size = 1024M/' /etc/zypp/zypp.conf
+
+echo "Refreshing repositories..."
+
+
+echo "Optimization complete. zypper should now be faster."
+
+# Add repositories with auto-import of GPG keys
 sudo zypper ar -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/Essentials/' packman-essentials
 sudo zypper ar -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
 sudo zypper ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Qt/openSUSE_Tumbleweed/ KDE:Unstable:Qt
@@ -48,26 +56,26 @@ sudo zypper ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/
 sudo zypper ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Applications/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Applications
 sudo zypper ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Extra/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Extra
 
-# Perform distribution upgrade
-sudo zypper -v dup --allow-vendor-change
-
-# Install flatpak packages (Optinal)
-#sudo zypper install flatpak
-#sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+# Perform distribution upgrade with auto-import of GPG keys
+sudo zypper --gpg-auto-import-keys -y -v dup --allow-vendor-change
 
 # Refresh and upgrade packages
-sudo zypper refresh
-sudo zypper up
-sudo zypper dup
+sudo zypper --non-interactive refresh
+sudo zypper up -y
+sudo zypper dup -y
+
+# Edit /etc/wsl.conf to enable systemd
+echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
 
 # Install required packages
-sudo zypper install plasma6-session plasma6-workspace plasma6-desktop dolphin konsole weston xrandr 
+sudo zypper install -y plasma6-session plasma6-workspace plasma6-desktop dolphin konsole weston xrandr
 
-# unnecessary but useful (Optinal)
-#sudo zypper install discover pulseaudio NetworkManager sddm htop neofetch opi 
+# Install flatpak packages (Optional)
+sudo zypper install -y flatpak
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-# Edit /etc/wsl.conf
-echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
+# Install additional useful packages (Optional)
+sudo zypper install -y discover pulseaudio NetworkManager sddm htop neofetch opi
 
 # Create start-weston.sh script
 sudo bash -c 'cat > /usr/local/bin/start-weston.sh <<EOF
@@ -96,17 +104,20 @@ Restart=always
 WantedBy=default.target
 EOF'
 
-# Make scripts executable
+# Make the start-weston.sh script executable
 sudo chmod +x /usr/local/bin/start-weston.sh
-sudo chmod +x /etc/systemd/system/weston.service
 
-# Enable and start necessary services
-sudo systemctl enable pulseaudio
-sudo systemctl start pulseaudio
-sudo systemctl enable NetworkManager
-sudo systemctl start NetworkManager
-sudo systemctl enable sddm
-sudo systemctl start sddm
+# Create start-plasma.sh script
+sudo bash -c 'cat > /usr/local/bin/start-plasma.sh <<EOF
+#!/bin/bash
+export XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
+export WAYLAND_DISPLAY=wayland-0
+export DISPLAY=:0
+dbus-launch startplasma-wayland
+EOF'
+
+# Make the start-plasma.sh script executable
+sudo chmod +x /usr/local/bin/start-plasma.sh
 
 # Create start-plasma.service
 sudo bash -c 'cat > /etc/systemd/system/start-plasma.service <<EOF
@@ -126,26 +137,23 @@ Restart=always
 WantedBy=default.target
 EOF'
 
-# Create start-plasma.sh script
-sudo bash -c 'cat > /usr/local/bin/start-plasma.sh <<EOF
-#!/bin/bash
-export XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
-export WAYLAND_DISPLAY=wayland-0
-export DISPLAY=:0
-dbus-launch startplasma-wayland
-EOF'
-
-# Make the script executable
-sudo chmod +x /usr/local/bin/start-plasma.sh
-
 # Reload systemd daemon and enable services
 sudo systemctl daemon-reload
 sudo systemctl enable weston.service
+sudo systemctl enable start-plasma.service
 
-# Create service to enable numlock at boot numlock.service (optinal)
-#sudo bash -c 'cat > /etc/systemd/system/numlock.service <<EOF
-#[Unit]
-#Description=Enable NumLock on startup
+# Enable and start necessary services
+sudo systemctl enable pulseaudio
+sudo systemctl start pulseaudio
+sudo systemctl enable NetworkManager
+sudo systemctl start NetworkManager
+sudo systemctl enable sddm
+sudo systemctl start sddm
+
+# Optional: Create service to enable numlock at boot (numlock.service)
+sudo bash -c 'cat > /etc/systemd/system/numlock.service <<EOF
+[Unit]
+Description=Enable NumLock on startup
 
 [Service]
 Type=oneshot
@@ -155,7 +163,7 @@ ExecStart=/usr/bin/bash -c "echo \'activate\' > /sys/class/leds/input3::numlock/
 WantedBy=multi-user.target
 EOF'
 
-# Create htop.service
+# Optional: Create htop.service
 sudo bash -c 'cat > /etc/systemd/system/htop.service <<EOF
 [Unit]
 Description=htop - Interactive process viewer
@@ -170,7 +178,47 @@ Restart=always
 WantedBy=default.target
 EOF'
 
-# Reload systemd daemon and enable services
+# Optional: Create service to start Discover (discover.service)
+sudo bash -c 'cat > /etc/systemd/system/discover.service <<EOF
+[Unit]
+Description=Start Discover at boot
+After=weston.service
+
+[Service]
+User=$USER
+Environment="XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir"
+Environment="WAYLAND_DISPLAY=wayland-0"
+Environment="DISPLAY=:0"
+ExecStart=/usr/bin/discover
+Restart=always
+
+[Install]
+WantedBy=default.target
+EOF'
+
+# Optional: Create service to start Neofetch (neofetch.service)
+sudo bash -c 'cat > /etc/systemd/system/neofetch.service <<EOF
+[Unit]
+Description=Start Neofetch at boot
+After=weston.service
+
+[Service]
+User=$USER
+Environment="XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir"
+Environment="WAYLAND_DISPLAY=wayland-0"
+Environment="DISPLAY=:0"
+ExecStart=/usr/bin/neofetch
+Restart=always
+
+[Install]
+WantedBy=default.target
+EOF'
+
+# Reload systemd daemon and enable optional services
 sudo systemctl daemon-reload
 sudo systemctl enable numlock.service
 sudo systemctl enable htop.service
+sudo systemctl enable discover.service
+sudo systemctl enable neofetch.service
+
+echo "Setup completed. Please restart your WSL instance."
