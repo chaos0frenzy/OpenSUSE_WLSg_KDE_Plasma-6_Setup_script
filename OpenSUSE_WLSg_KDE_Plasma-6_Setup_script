@@ -15,7 +15,7 @@
 #
 # 3. Restart your WSL instance after editing the configuration.
 #
-# 4. Configure the script on lines 81 and 118 you must put in your user name in the space where it says “!!YOUR USER HERE!!” and enable optional packages and service if desired. 
+# 4. Configure the script enable optional packages and service if desired. 
 #
 # 5. Save this script as setup_script.sh and make it executable:
 # chmod +x setup_script.sh
@@ -79,7 +79,7 @@ Description=Weston Wayland Compositor
 After=network.target
 
 [Service]
-User=!!YOUR USER HERE!!
+User=$USER
 Environment="XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir"
 Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="DISPLAY=:0"
@@ -113,7 +113,7 @@ Description=Start Plasma 6 in WSL
 After=weston.service
 
 [Service]
-User=!!YOUR USER HERE!!
+User=$USER
 Environment="XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir"
 Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="DISPLAY=:0"
