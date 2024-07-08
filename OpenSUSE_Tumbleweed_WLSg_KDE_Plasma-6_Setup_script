@@ -221,4 +221,4 @@ sudo systemctl enable htop.service
 sudo systemctl enable discover.service
 sudo systemctl enable neofetch.service
 
-echo "Setup completed. Please restart your WSL instance."
+echo "Setup completed. Please restart your WSL instance. Wait about 1 min to start again."
