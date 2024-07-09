@@ -39,23 +39,22 @@ fi
 
 # Optimization steps
 echo "Enabling parallel downloading..."
-sudo sed -i 's/# max_parallel_downloads = .*/max_parallel_downloads = 15/' /etc/zypp/zypp.conf
+sed -i 's/# max_parallel_downloads = .*/max_parallel_downloads = 15/' /etc/zypp/zypp.conf
 
 echo "Increasing cache size..."
-sudo sed -i 's/# cache-size = .*/cache-size = 1024M/' /etc/zypp/zypp.conf
+sed -i 's/# cache-size = .*/cache-size = 1024M/' /etc/zypp/zypp.conf
 
 echo "Refreshing repositories..."
-
 
 echo "Optimization complete. zypper should now be faster."
 
 # Add repositories with auto-import of GPG keys
-sudo zypper ar -cfp 90 https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/Essentials/ packman-essentials
-sudo zypper ar -cfp 90 https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/ packman
-sudo zypper ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Qt/openSUSE_Tumbleweed/ KDE:Unstable:Qt
-sudo zypper ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Frameworks/openSUSE_Factory/ KDE:Unstable:Frameworks
-sudo zypper ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Applications/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Applications
-sudo zypper ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Extra/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Extra
+zypper --gpg-auto-import-keys ar -fp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/Essentials/' packman-essentials
+zypper --gpg-auto-import-keys ar -fp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
+zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Qt/openSUSE_Tumbleweed/ KDE:Unstable:Qt
+zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Frameworks/openSUSE_Factory/ KDE:Unstable:Frameworks
+zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Applications/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Applications
+zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Extra/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Extra
 
 # Perform distribution upgrade with auto-import of GPG keys
 sudo zypper --gpg-auto-import-keys -y -v dup --allow-vendor-change
