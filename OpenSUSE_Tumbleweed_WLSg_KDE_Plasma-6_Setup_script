@@ -5,9 +5,7 @@
 # This script fully configures your OpenSUSE Tumbleweed WSL for WSLg using KDE Plasma 6
 #
 # 1. Install nano, WSL GUI, and WSL systemd patterns:
-#    sudo zypper in nano systemd
-#    sudo zypper in -t pattern wsl_gui
-#    sudo zypper in -t pattern wsl_systemd
+#    sudo zypper in nano systemd -t pattern wsl_gui -t pattern wsl_systemd
 #
 # 2. Edit /etc/wsl.conf to enable systemd:
 #    sudo nano /etc/wsl.conf
