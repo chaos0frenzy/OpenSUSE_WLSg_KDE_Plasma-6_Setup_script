@@ -19,7 +19,8 @@
 # 4. Configure the script
 #     enable optional packages and service if desired.
 #
-# 5. Save this script as setup_script.sh and make it executable:
+# 5. make the sctipt
+#    sudo nano setup_script.sh
 #    chmod +x setup_script.sh
 #    sudo ./setup_script.sh
 #
