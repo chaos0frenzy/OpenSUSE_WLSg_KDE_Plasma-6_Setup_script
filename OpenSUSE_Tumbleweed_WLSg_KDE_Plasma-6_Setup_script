@@ -40,6 +40,8 @@
 # Original source: https://github.com/chaos0frenzy/OpenSUSE_WLSg_KDE_Plasma-6_Setup_script/edit/main/OpenSUSE_Tumbleweed_WLSg_KDE_Plasma-6_Setup_script.
 # Information to produce this script was sourced from https://en.opensuse.org/openSUSE:WSL man pages and general knowledge.
 
+#!/bin/bash
+
 if [ "$(id -u)" -ne 0 ]; then
     echo "Please run this script as root or using sudo."
     exit 1
@@ -56,6 +58,12 @@ echo "Refreshing repositories..."
 
 echo "Optimization complete. zypper should now be faster."
 
+# Import GPG keys manually
+echo "Importing GPG keys..."
+rpm --import https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/Essentials/repodata/repomd.xml.key
+rpm --import https://download.opensuse.org/repositories/KDE:/Unstable:/Qt/openSUSE_Tumbleweed/repodata/repomd.xml.key
+rpm --import https://download.opensuse.org/repositories/KDE:/Unstable:/Frameworks/openSUSE_Factory/repodata/repomd.xml.key
+
 # Add repositories with auto-import of GPG keys
 zypper --gpg-auto-import-keys ar -fp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/Essentials/' packman-essentials
 zypper --gpg-auto-import-keys ar -fp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
@@ -63,9 +71,6 @@ zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositori
 zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Frameworks/openSUSE_Factory/ KDE:Unstable:Frameworks
 zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Applications/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Applications
 zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Extra/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Extra
-
-# Perform distribution upgrade with auto-import of GPG keys
-sudo zypper --gpg-auto-import-keys -y -v dup --allow-vendor-change
 
 # Refresh and upgrade packages
 sudo zypper --non-interactive refresh
