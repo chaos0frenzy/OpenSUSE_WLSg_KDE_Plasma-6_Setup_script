@@ -6,7 +6,7 @@
 # 0. update wsl
 # wsl --update
 #
-# 1. Install nano, WSL GUI, and WSL systemd patterns:
+# 1. Install nano and WSL systemd:
 # sudo zypper in nano systemd
 #
 # 2. Edit /etc/wsl.conf to enable systemd:
