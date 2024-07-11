@@ -74,9 +74,5 @@ echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
 # Install required packages
 sudo zypper install -y docker-compose docker
 
-# Install flatpak packages (Optional)
-sudo zypper install -y flatpak
-sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
 # Install additional useful packages (Optional)
 sudo zypper install -y NetworkManager neofetch opi
