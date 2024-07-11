@@ -39,7 +39,7 @@ sudo zypper dup -y
 echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
 
 # Install required packages
-sudo zypper install -y plasma6-session plasma6-workspace plasma6-desktop dolphin konsole weston xrandr
+sudo zypper install -y dolphin konsole weston xrandr docker-compose docker
 
 # Install flatpak packages (Optional)
 sudo zypper install -y flatpak
