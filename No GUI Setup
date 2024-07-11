@@ -1,0 +1,49 @@
+#!/bin/bash
+
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Please run this script as root or using sudo."
+    exit 1
+fi
+
+# Optimization steps
+echo "Enabling parallel downloading..."
+sed -i 's/# max_parallel_downloads = .*/max_parallel_downloads = 15/' /etc/zypp/zypp.conf
+
+echo "Increasing cache size..."
+sed -i 's/# cache-size = .*/cache-size = 1024M/' /etc/zypp/zypp.conf
+
+echo "Refreshing repositories..."
+
+echo "Optimization complete. zypper should now be faster."
+
+# Import GPG keys manually
+echo "Importing GPG keys..."
+rpm --import https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/Essentials/repodata/repomd.xml.key
+rpm --import https://download.opensuse.org/repositories/KDE:/Unstable:/Qt/openSUSE_Tumbleweed/repodata/repomd.xml.key
+rpm --import https://download.opensuse.org/repositories/KDE:/Unstable:/Frameworks/openSUSE_Factory/repodata/repomd.xml.key
+
+# Add repositories with auto-import of GPG keys
+zypper --gpg-auto-import-keys ar -fp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/Essentials/' packman-essentials
+zypper --gpg-auto-import-keys ar -fp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
+zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Qt/openSUSE_Tumbleweed/ KDE:Unstable:Qt
+zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Frameworks/openSUSE_Factory/ KDE:Unstable:Frameworks
+zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Applications/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Applications
+zypper --gpg-auto-import-keys ar -fp 75 https://download.opensuse.org/repositories/KDE:/Unstable:/Extra/KDE_Unstable_Frameworks_openSUSE_Factory/ KDE:Unstable:Extra
+
+# Refresh and upgrade packages
+sudo zypper --non-interactive refresh
+sudo zypper up -y
+sudo zypper dup -y
+
+# Edit /etc/wsl.conf to enable systemd
+echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
+
+# Install required packages
+sudo zypper install -y plasma6-session plasma6-workspace plasma6-desktop dolphin konsole weston xrandr
+
+# Install flatpak packages (Optional)
+sudo zypper install -y flatpak
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+# Install additional useful packages (Optional)
+sudo zypper install -y discover pulseaudio NetworkManager sddm htop neofetch opi
