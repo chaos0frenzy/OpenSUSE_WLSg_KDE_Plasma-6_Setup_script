@@ -2,7 +2,7 @@
 
 # Before you start:
 #
-# This script fully configures your OpenSUSE Tumbleweed WSL for WSLg using KDE Plasma 6
+# This script fully configures your OpenSUSE Tumbleweed for docker
 # 0. update wsl
 # wsl --update
 #
