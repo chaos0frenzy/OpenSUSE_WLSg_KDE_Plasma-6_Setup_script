@@ -75,7 +75,7 @@ echo -e "[boot]\nsystemd=true" | sudo tee /etc/wsl.conf
 sudo zypper install -y docker-compose docker
 
 # Install additional useful packages (Optional)
-sudo zypper install -y NetworkManager neofetch opi
+sudo zypper install -y NetworkManager neofetch opi git
 
 # Edit /etc/wsl.conf to enable systemd and start Docker on boot
 echo -e "[boot]\nsystemd=true\ncommand=\"sudo service docker start\"" | sudo tee /etc/wsl.conf
