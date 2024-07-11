@@ -76,3 +76,7 @@ sudo zypper install -y docker-compose docker
 
 # Install additional useful packages (Optional)
 sudo zypper install -y NetworkManager neofetch opi
+
+#Enable Docker
+sudo systemctl enable docker
+sudo systemctl start docker
