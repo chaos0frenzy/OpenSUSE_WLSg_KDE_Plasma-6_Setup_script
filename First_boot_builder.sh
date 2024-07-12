@@ -1,3 +1,5 @@
+#this script is designed to give a first boot like experiance the next time you boot usefull if you plan to make an image and redeploy so you can get your setup with root then run this script and have a new user after you import .tar to wsl
+#
 #!/bin/bash
 
 # Step 1: Create the First Boot Script
