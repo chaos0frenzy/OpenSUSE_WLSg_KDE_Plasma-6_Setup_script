@@ -1,9 +1,27 @@
-#this script is designed to give a first boot like experiance the next time you boot useful if you plan to make an image and redeploy so you can get your setup with root then run this script and have a new user after you import .tar to wsl
-#
+# This script is designed to give a first boot like experiance the next time you boot useful if you plan to make an image and redeploy so you can get your setup with root then run this script and have a new user after you import .tar to wsl
+
+# How to Use the Script
+# Save the script to a file, e.g., firstboot_setup.sh:
+
+# Copy code
+# sudo nano firstboot_setup.sh
+# Make the script executable:
+
+# Copy code
+# sudo chmod +x firstboot_setup.sh
+
+# Run the script:
+# Copy code
+# sudo ./firstboot_setup.sh
+
+# Reboot the system:
+# sudo reboot
+# When you log in after the reboot, the first boot script should run, prompting you for a username and password, and perform the necessary setup. This makes the system easily redeployable
+
 #!/bin/bash
 
-# Step 1: Create the First Boot Script
-cat << 'EOF' | sudo tee /etc/profile.d/firstboot.sh
+# Create the first boot script
+cat << 'EOF' | sudo tee /etc/profile.d/firstboot.sh > /dev/null
 #!/bin/bash
 
 # Check if the firstboot has already run
@@ -35,11 +53,11 @@ rm -f /etc/profile.d/firstboot.sh
 echo "Setup complete. Enjoy your system!"
 EOF
 
-# Make the script executable
+# Make the first boot script executable
 sudo chmod +x /etc/profile.d/firstboot.sh
 
-# Step 2: Create a Systemd Service
-cat << 'EOF' | sudo tee /etc/systemd/system/firstboot.service
+# Create the systemd service file
+cat << 'EOF' | sudo tee /etc/systemd/system/firstboot.service > /dev/null
 [Unit]
 Description=First Boot Setup
 After=network.target
@@ -53,12 +71,10 @@ RemainAfterExit=true
 WantedBy=multi-user.target
 EOF
 
-# Create a link to ensure the script is executed
+# Create a symlink to ensure the script is executed
 sudo ln -s /etc/profile.d/firstboot.sh /usr/local/bin/firstboot.sh
 
-# Enable the service
+# Enable the systemd service
 sudo systemctl enable firstboot.service
 
-# Reboot the system
-echo "Setup is complete. The system will now reboot."
-sudo reboot
+echo "Setup complete. Please reboot the system."
