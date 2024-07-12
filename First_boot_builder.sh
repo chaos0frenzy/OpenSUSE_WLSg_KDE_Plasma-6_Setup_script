@@ -31,5 +31,6 @@ rm -f /etc/profile.d/first_boot.sh
 # Set the default user for WSL
 echo "[user]" >> /etc/wsl.conf
 echo "default=$username" >> /etc/wsl.conf
+sudo usermod -aG docker $USER
 
 echo "Setup complete. Please restart WSL."
