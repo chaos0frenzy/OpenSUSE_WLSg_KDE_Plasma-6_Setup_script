@@ -1,3 +1,4 @@
+# This script is designed to give a first boot like experience the next time you boot your system and set that user as default for openSUSE Linux WSL useful for makeing a redeployable .tar
 # Deployment
 # 
 # sudo nano first_boot.sh
