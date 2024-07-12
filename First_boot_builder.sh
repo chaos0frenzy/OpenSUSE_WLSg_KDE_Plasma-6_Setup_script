@@ -20,9 +20,6 @@ useradd -m -s /bin/bash $username
 # Set the password for the new user
 echo "$username:$password" | chpasswd
 
-# Add the user to sudoers (optional)
-echo "$username ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$username
-
 # Clean up this script
 rm -f /etc/profile.d/first_boot.sh
 
