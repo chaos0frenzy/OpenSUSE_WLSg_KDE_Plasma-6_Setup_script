@@ -1,3 +1,16 @@
+# This script is a tool to take a fresh install of OpenSUSE tumbleweed wsl and set it up for docker deployment with one command
+#
+# !!! DO NOT CREATE A USER AT USER CREATION ON FRESH INSTALL OF OPENSUSE !!!
+# once you do your first reboot create a .tar of the of your install with the command wsl --export openSUSE-Tumbleweed C:any-file-path/ANY-FILE-NAME.tar then when you import the .tar with the command wsl --import any-name-you-want C:\WSL\(or any other location you would like this to be saved) C:/your-file-location.tar
+# this script will also autoconfigure that import with a user name and password for evan faster deployment 
+# Deployment Instructions:
+# 1. Create the script file:
+#  sudo joe wsl_initial_setup.sh && sudo chmod +x wsl_initial_setup.sh && sudo ./wsl_initial_setup.sh
+#
+# 6. Restart WSL when prompted.
+#   exit
+#   wsl --shutdown
+#   wsl
 #!/bin/bash
 # This script sets up a fresh install of OpenSUSE tumbleweed for docker deployment
 
