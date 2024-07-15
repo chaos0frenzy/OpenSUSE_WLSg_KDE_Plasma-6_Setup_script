@@ -31,6 +31,15 @@ enable_systemd() {
         cat > "$wsl_conf" << EOF
 [boot]
 systemd=true
+
+[automount]
+enabled = true
+root = /mnt/
+options = "metadata,umask=22,fmask=11"
+mountFsTab = true
+
+[automount.mounts]
+"/mnt/c/WSL Files" = "/home/$USER/windows_files"
 EOF
         echo -e "${GREEN}Enabled systemd in $wsl_conf${NC}"
     else
